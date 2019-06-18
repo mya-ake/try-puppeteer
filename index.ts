@@ -1,10 +1,16 @@
 import puppeteer from 'puppeteer';
+// const puppeteer = require('puppeteer-firefox');
 
 (async () => {
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.setViewport({ width: 1200, height: 600 });
+
   await page.goto('https://mya-ake.com', { waitUntil: 'networkidle0' });
+
+  // for puppetter-firefox
+  // await page.goto('https://mya-ake.com');
+  // await page.waitFor(2000);
 
   await page.click('#CybotCookiebotDialogBodyButtonAccept');
 
@@ -26,7 +32,7 @@ import puppeteer from 'puppeteer';
     try {
       await Promise.all([
         page.click('#btn-swiper-next'),
-        page.$eval('#btn-swiper-next', el => {
+        page.$eval('#btn-swiper-next', (el: Element) => {
           if (el.classList.contains('swiper-button-disabled')) {
             throw 'complete';
           }
